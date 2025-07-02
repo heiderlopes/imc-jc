@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">IMC JC</string>
+    <string name="imc_magreza">Magreza</string>
+    <string name="imc_ideal">Ideal</string>
+    <string name="imc_sobrepeso">Sobrepeso</string>
+    <string name="imc_obeso">Obeso</string>
+    <string name="imc_obeso_ii">Obeso II</string>
+</resources>
