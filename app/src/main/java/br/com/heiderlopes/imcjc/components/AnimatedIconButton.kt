@@ -38,19 +38,8 @@ fun AnimatedIconButton(
     iconColor: Color = Color.White,
     onClick: () -> Unit
 ) {
-    var isPressed by remember { mutableStateOf(false) }
-
-    val scope = rememberCoroutineScope()
     val scale = remember { Animatable(1f) }
-
-    LaunchedEffect(isPressed) {
-        if (isPressed) {
-            // Faz a animação e volta ao normal
-            scale.animateTo(0.85f, animationSpec = tween(80))
-            scale.animateTo(1f, animationSpec = tween(80))
-            isPressed = false
-        }
-    }
+    val scope = rememberCoroutineScope()
 
     Box(
         modifier = modifier
@@ -65,11 +54,14 @@ fun AnimatedIconButton(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
                 onClick = {
-                    if (!isPressed) {
-                        isPressed = true
-                        scope.launch {
-                            onClick()
-                        }
+                    scope.launch {
+                        // Evita múltiplas animações simultâneas
+                        if (scale.isRunning) return@launch
+
+                        // Anima e executa ação
+                        scale.animateTo(0.85f, animationSpec = tween(80))
+                        scale.animateTo(1f, animationSpec = tween(80))
+                        onClick()
                     }
                 }
             ),
@@ -83,3 +75,4 @@ fun AnimatedIconButton(
         )
     }
 }
+

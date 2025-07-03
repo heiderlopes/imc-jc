@@ -24,12 +24,19 @@ fun IMCScreen(modifier: Modifier) {
     val alturaM = altura / 100f
     val imc = if (alturaM > 0) peso / (alturaM * alturaM) else 0f
 
+//    val res = when {
+//        imc < 18.5 -> Pair(R.string.imc_magreza, R.drawable.imc_2_magreza)
+//        imc < 25 -> Pair(R.string.imc_ideal, R.drawable.imc_2_peso_ideal)
+//        imc < 30 -> Pair(R.string.imc_sobrepeso, R.drawable.imc_2_sobrepeso)
+//        imc < 40 -> Pair(R.string.imc_obeso, R.drawable.imc_2_obesidade)
+//        else -> Pair(R.string.imc_obeso_ii, R.drawable.imc_2_obesidade_2)
+//    }
     val res = when {
-        imc < 18.5 -> Pair(R.string.imc_magreza, R.drawable.imc_2_magreza)
-        imc < 25 -> Pair(R.string.imc_ideal, R.drawable.imc_2_peso_ideal)
-        imc < 30 -> Pair(R.string.imc_sobrepeso, R.drawable.imc_2_sobrepeso)
-        imc < 40 -> Pair(R.string.imc_obeso, R.drawable.imc_2_obesidade)
-        else -> Pair(R.string.imc_obeso_ii, R.drawable.imc_2_obesidade_2)
+        imc < 18.5 -> Pair(R.string.imc_magreza, R.drawable.imc_h_magreza)
+        imc < 25 -> Pair(R.string.imc_ideal, R.drawable.imc_h_peso_ideal)
+        imc < 30 -> Pair(R.string.imc_sobrepeso, R.drawable.imc_h_sobrepeso)
+        imc < 40 -> Pair(R.string.imc_obeso, R.drawable.imc_h_obesidade)
+        else -> Pair(R.string.imc_obeso_ii, R.drawable.imc_h_obesidade_2)
     }
 
     val (stringRes, imageRes) = res
