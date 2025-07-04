@@ -40,12 +40,15 @@ fun IMCPortrait(
     onChangeAltura: (Int) -> Unit,
     imc: Float,
     @DrawableRes imageRes: Int,
-    @StringRes stringRes: Int
+    @StringRes stringRes: Int,
+    isMale: Boolean,
+    onGenderChange: (Boolean) -> Unit
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)),
+        modifier = modifier
+            .background(color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f))
+            .fillMaxSize(),
+
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -105,11 +108,14 @@ fun IMCPortrait(
             )
 
 
-            var gender by remember { mutableStateOf("Homem") }
+            var gender by remember { mutableStateOf(if(isMale)"Homem" else "Mulher") }
 
             GenderSegmentedControl(
                 selectedGender = gender,
-                onGenderSelected = { gender = it }
+                onGenderSelected = {
+                    gender = it
+                    onGenderChange((gender == "Homem"))
+                }
             )
 
             IncrementSelector(

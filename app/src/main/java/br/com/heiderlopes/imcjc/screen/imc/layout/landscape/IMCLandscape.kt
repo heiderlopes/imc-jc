@@ -37,7 +37,9 @@ fun IMCLandscape(
     onChangeAltura: (Int) -> Unit,
     imc: Float,
     @DrawableRes imageRes: Int,
-    @StringRes stringRes: Int
+    @StringRes stringRes: Int,
+    isMale: Boolean,
+    onGenderChange: (Boolean) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -62,7 +64,10 @@ fun IMCLandscape(
             altura = altura,
             onChangeAltura = onChangeAltura,
             stringRes = stringRes,
-            imc = imc
+            imc = imc,
+            isMale= isMale,
+            onGenderChange = onGenderChange
+
         )
     }
 }
@@ -76,6 +81,8 @@ private fun RightPanel(
     onChangeAltura: (Int) -> Unit,
     @StringRes stringRes: Int,
     imc: Float,
+    isMale: Boolean,
+    onGenderChange: (Boolean) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -97,7 +104,7 @@ private fun RightPanel(
                 .weight(1f)
         ) {
 
-            var gender by remember { mutableStateOf("Homem") }
+            var gender by remember { mutableStateOf(if(isMale)"Homem" else "Mulher") }
 
             Text(
                 "Conte mais sobre você",
@@ -107,7 +114,10 @@ private fun RightPanel(
 
             GenderSegmentedControl(
                 selectedGender = gender,
-                onGenderSelected = { gender = it }
+                onGenderSelected = {
+                    gender = it
+                    onGenderChange(gender == "Homem")
+                }
             )
 
             IncrementSelector(

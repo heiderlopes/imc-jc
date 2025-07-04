@@ -13,7 +13,11 @@ import br.com.heiderlopes.imcjc.screen.imc.layout.landscape.IMCLandscape
 import br.com.heiderlopes.imcjc.screen.imc.layout.portrait.IMCPortrait
 
 @Composable
-fun IMCScreen(modifier: Modifier) {
+fun IMCScreen(
+    modifier: Modifier,
+    isMale: Boolean,
+    onGenderChange: (Boolean) -> Unit
+) {
 
     val configuration = LocalConfiguration.current
     val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
@@ -32,14 +36,14 @@ fun IMCScreen(modifier: Modifier) {
 //        else -> Pair(R.string.imc_obeso_ii, R.drawable.imc_2_obesidade_2)
 //    }
     val res = when {
-        imc < 18.5 -> Pair(R.string.imc_magreza, R.drawable.imc_h_magreza)
-        imc < 25 -> Pair(R.string.imc_ideal, R.drawable.imc_h_peso_ideal)
-        imc < 30 -> Pair(R.string.imc_sobrepeso, R.drawable.imc_h_sobrepeso)
-        imc < 40 -> Pair(R.string.imc_obeso, R.drawable.imc_h_obesidade)
-        else -> Pair(R.string.imc_obeso_ii, R.drawable.imc_h_obesidade_2)
+        imc < 18.5 -> Triple(R.string.imc_magreza, R.drawable.imc_2_h_magreza, R.drawable.imc_2_m_magreza)
+        imc < 25 -> Triple(R.string.imc_ideal, R.drawable.imc_2_h_peso_ideal, R.drawable.imc_2_m_ideal)
+        imc < 30 -> Triple(R.string.imc_sobrepeso, R.drawable.imc_2_h_sobrepeso, R.drawable.imc_2_m_sobrepeso)
+        imc < 40 -> Triple(R.string.imc_obeso, R.drawable.imc_2_h_obesidade, R.drawable.imc_2_m_obesidade)
+        else -> Triple(R.string.imc_obeso_ii, R.drawable.imc_2_h_obesidade_2, R.drawable.imc_2_m_obesidade_2)
     }
 
-    val (stringRes, imageRes) = res
+    val (stringRes, imageMRes, imageFRes) = res
 
     if (isLandscape) {
         IMCLandscape(
@@ -49,8 +53,10 @@ fun IMCScreen(modifier: Modifier) {
             altura = altura,
             onChangeAltura = { altura = it },
             imc = imc,
-            imageRes = imageRes,
-            stringRes = stringRes
+            imageRes = if(isMale)imageMRes else imageFRes,
+            stringRes = stringRes,
+            isMale = isMale,
+            onGenderChange = onGenderChange
         )
     } else {
         IMCPortrait(
@@ -60,8 +66,10 @@ fun IMCScreen(modifier: Modifier) {
             altura = altura,
             onChangeAltura = { altura = it },
             imc = imc,
-            imageRes = imageRes,
-            stringRes = stringRes
+            imageRes = if(isMale)imageMRes else imageFRes,
+            stringRes = stringRes,
+            isMale = isMale,
+            onGenderChange = onGenderChange
         )
     }
 }

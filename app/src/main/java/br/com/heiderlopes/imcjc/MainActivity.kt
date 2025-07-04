@@ -30,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,7 +54,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            IMCJCTheme {
+            var isMale by rememberSaveable { mutableStateOf(true) }
+            IMCJCTheme(isMale) {
                 Scaffold(
 //                    topBar = {
 //                        TopAppBar(title = { Text("Calculo IMC") })
@@ -61,11 +63,14 @@ class MainActivity : ComponentActivity() {
                     modifier =
                         Modifier
                             .fillMaxSize()
-                            //.background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)),
+                    //.background(MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)),
                 ) { innerPadding ->
                     IMCScreen(
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                        modifier = Modifier.padding(innerPadding),
+                        isMale = isMale
+                    ) {
+                        isMale = it
+                    }
                 }
             }
         }
